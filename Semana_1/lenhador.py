@@ -1,3 +1,4 @@
+#inicio
 vida = 10
 arvores = 0
 
