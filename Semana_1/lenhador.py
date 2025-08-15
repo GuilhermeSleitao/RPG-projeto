@@ -1,7 +1,6 @@
 #inicio
 vida = 10
 arvores = 0
-
 # Loop das 3 horas
 for hora in range(3):
     print(f"\nHora {hora + 1}: O lenhador cortou uma árvore.")
