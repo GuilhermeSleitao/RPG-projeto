@@ -1,0 +1,283 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html>
+<head>
+  <title>Arena (Onde Lendas se Encontram)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(135deg, #f4e4bc 0%, #e8d8a6 100%);
+      margin: 0;
+      padding: 20px;
+      color: #2c1b07;
+      line-height: 1.6;
+    }
+    .header {
+      background: linear-gradient(90deg, #8b5a2b 0%, #d4a017 100%);
+      padding: 15px;
+      border-bottom: 3px solid #4a2c0d;
+      text-align: center;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin: 0;
+      padding: 10px;
+    }
+    .header .logo {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .nav-container {
+      margin: 10px 0;
+    }
+    .nav-button {
+      background: linear-gradient(135deg, #8b5a2b 0%, #a06e3c 100%);
+      color: white;
+      font-size: 1.1em;
+      font-weight: bold;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border: 2px solid #d4a017;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+      margin: 0 10px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .nav-button:hover {
+      background: linear-gradient(135deg, #d4a017 0%, #c28f1e 100%);
+      transform: scale(1.05);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .section {
+      background: linear-gradient(135deg, #e6d5a7 0%, #f0e6d0 100%);
+      border: 3px solid #8b5a2b;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 600px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    .section h2 {
+      font-size: 1.5em;
+      color: #4a2c0d;
+      margin-top: 0;
+      border-bottom: 2px solid #8b5a2b;
+      padding-bottom: 5px;
+    }
+    .chaveamento {
+      margin: 20px 0;
+      padding: 15px;
+      background: linear-gradient(135deg, #d4a017 0%, #c28f1e 100%);
+      border: 4px solid #8b5a2b;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    .chaveamento table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 8px;
+    }
+    .chaveamento th, .chaveamento td {
+      background: linear-gradient(135deg, #e6d5a7 0%, #f0e6d0 100%);
+      padding: 10px;
+      border: 2px solid #8b5a2b;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 1.1em;
+    }
+    .chaveamento th {
+      background: linear-gradient(135deg, #8b5a2b 0%, #6f4a20 100%);
+      color: #fff;
+    }
+    .form-group {
+      margin: 15px 0;
+    }
+    .form-group label {
+      font-size: 1.1em;
+      color: #4a2c0d;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 1em;
+      border: 2px solid #8b5a2b;
+      border-radius: 4px;
+      background: #fff;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #d4a017;
+      outline: none;
+    }
+    .submit-button {
+      background: linear-gradient(135deg, #8b5a2b 0%, #a06e3c 100%);
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: 2px solid #d4a017;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .submit-button:hover {
+      background: linear-gradient(135deg, #d4a017 0%, #c28f1e 100%);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo"></div>
+    <h1>  Arena (Onde Lendas se Encontram)</h1>
+  </div>
+
+  <div class="nav-container">
+    <a href="catalogo.html" class="nav-button">Catálogo</a>
+    <a href="placar.html" class="nav-button">Placar</a>
+  </div>
+
+  <div class="section">
+    <h2>Chaves</h2>
+    <div class="chaveamento">
+      <table>
+        <tr>
+          <th>Round 1</th>
+          <th>Round 2</th>
+          <th>Final</th>
+        </tr>
+        <tr>
+          <td>Guerreiro A vs Cavaleiro B</td>
+          <td>Ganhador R1 vs Mago C</td>
+          <td>Ganhador R2</td>
+        </tr>
+        <tr>
+          <td>Arqueiro D vs Bárbaro E</td>
+          <td>Ganhador R1 vs Feiticeira F</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Visitantes para Batalha</h2>
+    <p>Lorde Valquíria</p>
+  </div>
+
+  <div class="section">
+    <h2>Mural de Recados (Comunidade)</h2>
+    <textarea placeholder="Escreva seu recado" rows="4"></textarea>
+    <button class="submit-button" onclick="alert('Recado enviado!')">Enviar</button>
+  </div>
+
+  <div class="section">
+    <h2>História da Arena</h2>
+    <p>A Arena foi fundada em 1080 por Sir Cedric, um lendário cavaleiro, como um local de honra e glória para os guerreiros de Eldoria.</p>
+  </div>
+
+  <div class="section">
+    <h2>Localização</h2>
+    <p>Eldoria - Detalhes a serem preenchidos.</p>
+  </div>
+
+  <div class="section">
+    <h2>Formulário de Inscrição</h2>
+    <div class="form-group">
+      <label for="warrior-name">Nome do Guerreiro</label>
+      <input type="text" id="warrior-name" placeholder="Ex: Sir Alaric" required>
+    </div>
+    <div class="form-group">
+      <label for="warrior-age">Idade</label>
+      <input type="number" id="warrior-age" placeholder="Ex: 25" required>
+    </div>
+    <div class="form-group">
+      <label for="warrior-weapon">Escolha sua Arma</label>
+      <select id="warrior-weapon">
+        <option value="adaga">Adaga</option>
+        <option value="foice">Foice</option>
+        <option value="espadaFraca">Espada Fraca</option>
+        <option value="vela">Vela</option>
+        <option value="manopla">Manopla</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="warrior-story">Fale sobre sua Jornada</label>
+      <textarea id="warrior-story" placeholder="Conte sua história..." rows="4"></textarea>
+    </div>
+    <button class="submit-button" onclick="submitForm()">Inscreva-se</button>
+  </div>
+
+  <script>
+    function submitForm() {
+      const name = document.getElementById('warrior-name').value;
+      const age = document.getElementById('warrior-age').value;
+      const weapon = document.getElementById('warrior-weapon').value;
+      const story = document.getElementById('warrior-story').value;
+
+      if (!name || !age || !story) {
+        alert('Por favor, preencha todos os campos!');
+        return;
+      }
+
+      alert(`Inscrição realizada!\nNome: ${name}\nIdade: ${age}\nArma: ${weapon.charAt(0).toUpperCase() + weapon.slice(1)}\nJornada: ${story}`);
+    }
+  </script>
+</body>
+</html>
