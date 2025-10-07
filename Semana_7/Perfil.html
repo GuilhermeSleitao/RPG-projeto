@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #4682B4; /* Fundo mais escuro */
+            background-color: #4682B4;
             margin: 0;
             padding: 0;
         }
@@ -53,6 +53,7 @@
             margin: 5px;
             box-sizing: border-box;
             background-color: #E6E6FA;
+            display: inline-block;
         }
         .medal-placeholder img {
             width: 100%;
@@ -100,11 +101,15 @@
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #800080; /* Cor de destaque mais vibrante (roxo médio) */
+            color: #800080;
         }
         p {
             margin: 5px 0;
             color: #4B0082;
+        }
+        a.medal-placeholder {
+            text-decoration: none;
+            border: none;
         }
     </style>
 </head>
@@ -137,29 +142,43 @@
         <div class="medals">
             <p class="subtitle">Espaço para Medalhas:</p>
             <div class="medals-grid">
-                <div class="medal-placeholder"><img src="Medalha1.png" alt="Medalha 1"></div>
-                <div class="medal-placeholder"><img src="Medalha2.png" alt="Medalha 2"></div>
-                <div class="medal-placeholder"><img src="Medalha3.png" alt="Medalha 3"></div>
-                <div class="medal-placeholder"><img src="Medalha4.png" alt="Medalha 4"></div>
-                <div class="medal-placeholder"><img src="Medalha5.png" alt="Medalha 5"></div>
-                <div class="medal-placeholder"><img src="Medalha6.png" alt="Medalha 6"></div>
-                <div class="medal-placeholder"><img src="Medalha7.png" alt="Medalha 7"></div>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha1.png" alt="Medalha 1">
+                </a>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha2.png" alt="Medalha 2">
+                </a>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha3.png" alt="Medalha 3">
+                </a>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha4.png" alt="Medalha 4">
+                </a>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha5.png" alt="Medalha 5">
+                </a>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha6.png" alt="Medalha 6">
+                </a>
+                <a href="https://github.com/GuilhermeSleitao/RPG-projeto/tree/main/Semana_1" target="_blank" class="medal-placeholder">
+                    <img src="Medalha7.png" alt="Medalha 7">
+                </a>
             </div>
         </div>
         <div class="attacks">
-            <p class="subtitle">ataques:</p>
+            <p class="subtitle">Ataques:</p>
             <p>A - 8 de dano todos os alvos</p>
-            <p>2 - 7 de dano + 2 de dano sempre que cai(soma ate 17 depois retorna para 9 e se repete)</p>
+            <p>2 - 7 de dano + 2 de dano sempre que cai (soma até 17 depois retorna para 9 e se repete)</p>
             <p>3 - 7 de dano</p>
             <p>4 - 13 de dano</p>
-            <p>5 - 7 de dano + 2 de dano sempre que cai(soma ate 17 depois retorna para 9 e se repete)</p>
+            <p>5 - 7 de dano + 2 de dano sempre que cai (soma até 17 depois retorna para 9 e se repete)</p>
             <p>6 - 11 de dano +2 Fogo</p>
             <p>7 - 11 de dano +2 Fogo</p>
             <p>8 - 11 de dano +2 Fogo</p>
             <p>9 - 13 de dano</p>
             <p>10 - 7 de dano</p>
             <p>J - Amola um item +2 dano</p>
-            <p>Q - Cura 3 de vida na primeira vez se cair de novo será feito um telefone sem fio que cura 10 de vida do grupo</p>
+            <p>Q - Cura 3 de vida na primeira vez, se cair de novo será feito um telefone sem fio que cura 10 de vida do grupo</p>
             <p>K - Contra ataque - cancela o golpe do chefe e causa o dobro de dano da carta anterior</p>
         </div>
         <div class="section">
@@ -172,5 +191,4 @@
         </div>
     </div>
 </body>
-
 </html>
